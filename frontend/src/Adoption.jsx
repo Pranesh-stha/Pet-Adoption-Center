@@ -1,8 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Logincard from "./Logincard";
 
-function Adoption({ showLogin, setLoginFalse, pets }){
+function Adoption(){
   return(
     <main className="adoption-layout">
       <section className="adoption-hero">
@@ -54,7 +53,6 @@ function Adoption({ showLogin, setLoginFalse, pets }){
           </div>
         </div>
       </article>
-      {showLogin ? <Logincard setLoginFalse={setLoginFalse} /> : null}
     </main>
   )
 }

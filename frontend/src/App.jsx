@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
 import Header from "./Header";
 import Home from "./home/Home";
 import Pets from "./Pets";
 import axios from "axios";
 import Process from "./process";
 import Adoption from "./Adoption";
+import Logincard from "./Logincard";
 
 function App() {
   const [showLogin, setShowLogin] = React.useState(false);
   const [pets, setPets] = React.useState([]);
+  const [loginState, setLoginState] = React.useState(false);
+  const [wrongMsg, setWrongMsg] = React.useState("");
 
   function shuffleArray(array) {
     const shuffled = [...array];
@@ -35,9 +37,47 @@ function App() {
     petData();
   }, []);
 
+  const [credential, setCredential] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  async function logginIn() {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/login",
+        credential
+      );
+      console.log(response.data);
+      if (response.data.state === false) {
+        console.log("fail");
+        setShowLogin(true);
+        setLoginState(false);
+        setWrongMsg(response.data.msg);
+      } else {
+        console.log("pass");
+        setShowLogin(false);
+        setLoginState(true);
+        setWrongMsg("");
+        setCredential({
+          email: "",
+          password: "",
+        });
+      }
+    } catch (err) {
+      console.log("error checking", err);
+    }
+  }
+
   return (
     <div className="page">
-      <Header setLoginTrue={() => setShowLogin(true)} petData={petData} />
+      <Header
+        setLoginTrue={() => setShowLogin(true)}
+        petData={petData}
+        loginState={loginState}
+        setLoginState={setLoginState}
+      />
+
       <Routes>
         <Route
           path="/"
@@ -45,29 +85,16 @@ function App() {
             <Home
               setLoginFalse={() => setShowLogin(false)}
               showLogin={showLogin}
+              setLoginState={setLoginState}
             />
           }
         />
         <Route
           path="/pets"
-          element={
-            <Pets
-              showLogin={showLogin}
-              setLoginFalse={() => setShowLogin(false)}
-              pets={pets}
-            />
-          }
+          element={<Pets showLogin={showLogin} pets={pets} />}
         />
 
-        <Route
-          path="/process"
-          element={
-            <Process
-              showLogin={showLogin}
-              setLoginFalse={() => setShowLogin(false)}
-            />
-          }
-        />
+        <Route path="/process" element={<Process />} />
 
         <Route
           path="/adoption"
@@ -75,10 +102,20 @@ function App() {
             <Adoption
               showLogin={showLogin}
               setLoginFalse={() => setShowLogin(false)}
+              setLoginState={setLoginState}
             />
           }
         />
       </Routes>
+      {showLogin ? (
+        <Logincard
+          credential={credential}
+          setCredential={setCredential}
+          logginIn={logginIn}
+          setShowLogin={setShowLogin}
+          wrongMsg={wrongMsg}
+        />
+      ) : null}
     </div>
   );
 }

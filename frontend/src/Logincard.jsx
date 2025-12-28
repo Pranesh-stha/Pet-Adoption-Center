@@ -1,6 +1,27 @@
 import React from "react";
+import Register from "./Register";
 
-function Logincard({setLoginFalse}) {
+function Logincard({ credential,setCredential,logginIn,setShowLogin, wrongMsg }) {
+  
+
+  function handelChange(event) {
+    const { name, value } = event.target;
+    setCredential((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  }
+
+ 
+
+  function handelLogIn() {
+    setLoginFalse();
+    setLoginState(true);
+    console.log(credential)
+  }
+
   return (
     <div className="modal-overlay" id="loginModal">
       <div className="modal-card">
@@ -8,7 +29,7 @@ function Logincard({setLoginFalse}) {
           className="modal-close"
           id="closeLoginModal"
           aria-label="Close login form"
-          onClick={setLoginFalse}
+          onClick={()=>{setShowLogin(false)}}
         >
           &times;
         </button>
@@ -19,42 +40,43 @@ function Logincard({setLoginFalse}) {
             <form className="modal-form">
               <label className="form-field">
                 <span>Email</span>
-                <input type="email" placeholder="you@example.com" />
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  name="email"
+                  value={credential.email}
+                  onChange={handelChange}
+                />
               </label>
               <label className="form-field">
                 <span>Password</span>
-                <input type="password" placeholder="********" />
+                <input
+                  type="password"
+                  placeholder="********"
+                  name="password"
+                  value={credential.password}
+                  onChange={handelChange}
+                />
               </label>
-              <button type="button" className="primary-btn form-btn">
+              <p>{wrongMsg}</p>
+              <button
+                type="button"
+                className="primary-btn form-btn"
+                onClick={logginIn}
+              >
                 Login
               </button>
-              <button type="button" className="ghost-btn form-btn" id="adminLogin">
+              <button
+                type="button"
+                className="ghost-btn form-btn"
+                id="adminLogin"
+              >
                 Login as admin
               </button>
             </form>
           </div>
           <div className="divider"></div>
-          <div className="modal-pane">
-            <p className="eyebrow">New here?</p>
-            <h3>Create account</h3>
-            <form className="modal-form">
-              <label className="form-field">
-                <span>Full name</span>
-                <input type="text" placeholder="Alex Kim" />
-              </label>
-              <label className="form-field">
-                <span>Email</span>
-                <input type="email" placeholder="you@example.com" />
-              </label>
-              <label className="form-field">
-                <span>Password</span>
-                <input type="password" placeholder="Create a password" />
-              </label>
-              <button type="button" className="primary-btn form-btn">
-                Sign up
-              </button>
-            </form>
-          </div>
+          <Register />
         </div>
       </div>
     </div>

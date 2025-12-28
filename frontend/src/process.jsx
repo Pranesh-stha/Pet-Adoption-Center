@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import Logincard from "./Logincard";
 
-function Process({showLogin, setLoginFalse}){
+function Process({}){
   return(
     <main className="process-page">
-      {showLogin ? <Logincard setLoginFalse={setLoginFalse} /> : null}
+      
       <section className="process-hero">
         <div className="process-copy">
           <div className="pill">How adoption works</div>
@@ -148,7 +147,6 @@ function Process({showLogin, setLoginFalse}){
         </div>
       </section>
 
-      
     </main>
   )
 }

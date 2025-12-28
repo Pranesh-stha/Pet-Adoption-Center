@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Header({ setLoginTrue, petData }) {
+function Header({ setLoginTrue, petData, loginState, setLoginState }) {
   const navigate = useNavigate();
   const [homeActive, setHomeActive] = React.useState(true);
   const [petActive, setpetActive] = React.useState(false);
@@ -46,7 +46,7 @@ function Header({ setLoginTrue, petData }) {
       <div className="brand">
         <div className="brand-mark">PH</div>
         <div className="brand-copy">
-          <span className="brand-name">Pet Haven</span>
+          <span className="brand-name">{loginState ?  "Logged In" : "Pet Haven" }</span>
           <span className="brand-tagline">Adopt happiness</span>
         </div>
       </div>
@@ -68,9 +68,12 @@ function Header({ setLoginTrue, petData }) {
       </nav>
       <div className="cta-group">
         <button className="ghost-btn">Donate</button>
-        <button className="primary-btn" data-open-login onClick={setLoginTrue}>
+        {loginState?<button className="primary-btn" data-open-login onClick={()=>{setLoginState(false)}}>
+          Logout
+        </button>:<button className="primary-btn" data-open-login onClick={setLoginTrue}>
           Login
-        </button>
+        </button>}
+        
       </div>
     </header>
   );

@@ -5,9 +5,8 @@ import Homecard from './Homecard'
 import About from './About'
 import Bottombar from './Bottombar'
 import Footer from './Footer'
-import Logincard from '../Logincard'
 
-function Home({setLoginFalse, showLogin}){
+function Home(){
 
   return (
     
@@ -22,7 +21,6 @@ function Home({setLoginFalse, showLogin}){
       <Homecard />
       <About />
       <Bottombar />
-      {showLogin? <Logincard setLoginFalse={setLoginFalse}/>:null}
     </main>
 
     

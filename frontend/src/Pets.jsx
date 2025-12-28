@@ -1,8 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Logincard from "./Logincard";
 
-function Pets({ showLogin, setLoginFalse, pets }) {
+function Pets({ pets }) {
   return (
     <div className="page-wide">
       <main className="pets-layout">
@@ -180,7 +179,7 @@ function Pets({ showLogin, setLoginFalse, pets }) {
         </section>
       </main>
 
-      {showLogin ? <Logincard setLoginFalse={setLoginFalse} /> : null}
+      
     </div>
   );
 }

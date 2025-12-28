@@ -32,6 +32,23 @@ app.get("/pets", (req,res)=>{
   })
 })
 
+app.post("/login",(req,res)=>{
+  const {email, password}= req.body;
+  db.query("SELECT * FROM users WHERE email=$1",[email],(err,dbRes)=>{
+    if(err){
+      console.log("error getting the query", err)
+    }
+
+    if(dbRes.rows.length ===0){
+      return res.json({msg:"email not found", state:false})
+    } else if (dbRes.rows[0].password != password){
+      return res.json({msg:"Password Incorrect", state:false})
+    } else{
+      return res.json({msg:"Successful login", state:true})
+    }
+  })
+})
+
 
 
 
