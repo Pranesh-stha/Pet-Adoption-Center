@@ -10,39 +10,6 @@ function Pets({ showLogin, setLoginFalse, pets }) {
           <h3>Filter pets</h3>
 
           <div className="filter-section">
-            <p className="eyebrow">Type</p>
-            <div className="filter-list">
-              <label>
-                <input
-                  type="checkbox"
-                  className="filter-check"
-                  data-filter="type"
-                  value="dog"
-                />{" "}
-                Dog
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  className="filter-check"
-                  data-filter="type"
-                  value="cat"
-                />{" "}
-                Cat
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  className="filter-check"
-                  data-filter="type"
-                  value="rabbit"
-                />{" "}
-                Rabbit
-              </label>
-            </div>
-          </div>
-
-          <div className="filter-section">
             <p className="eyebrow">Age</p>
             <div className="filter-list">
               <label>
@@ -163,7 +130,7 @@ function Pets({ showLogin, setLoginFalse, pets }) {
             </div>
             <div className="pets-actions">
               <p id="resultsCount" className="muted">
-                Showing all pets
+                Showing all {pets.length} pets 
               </p>
               <button
                 className="primary-btn add-pet-btn"
@@ -204,7 +171,7 @@ function Pets({ showLogin, setLoginFalse, pets }) {
                   </div>
 
                   <button className="primary-btn adopt-btn">
-                    Adopt {pet.breed}
+                    Adopt {pet.name}
                   </button>
                 </div>
               </article>
