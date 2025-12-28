@@ -562,16 +562,14 @@ h2 {
   inset: 0;
   background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(6px);
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 18px;
   z-index: 40;
 }
 
-.modal-overlay.active {
-  display: flex;
-}
+
 
 .modal-card {
   width: min(960px, 100%);
