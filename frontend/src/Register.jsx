@@ -1,6 +1,20 @@
 import React from "react";
 
-function Register() {
+function Register({ registry, setRegistry, regMsg, newUser }) {
+  function handelChange(event) {
+    const { name, value } = event.target;
+    setRegistry((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  }
+
+  function handleClick(){
+    console.log(registry)
+    newUser()
+  }
   return (
     <div className="modal-pane">
       <p className="eyebrow">New here?</p>
@@ -8,17 +22,36 @@ function Register() {
       <form className="modal-form">
         <label className="form-field">
           <span>Full name</span>
-          <input type="text" placeholder="Alex Kim" />
+          <input
+            type="text"
+            placeholder="Alex Kim"
+            name="fName"
+            value={registry.fName}
+            onChange={handelChange}
+          />
         </label>
         <label className="form-field">
           <span>Email</span>
-          <input type="email" placeholder="you@example.com" />
+          <input
+            type="email"
+            placeholder="you@example.com"
+            name="email"
+            value={registry.email}
+            onChange={handelChange}
+          />
         </label>
         <label className="form-field">
           <span>Password</span>
-          <input type="password" placeholder="Create a password" />
+          <input
+            type="password"
+            placeholder="Create a password"
+            name="password"
+            value={registry.password}
+            onChange={handelChange}
+          />
         </label>
-        <button type="button" className="primary-btn form-btn">
+        <p>{regMsg}</p>
+        <button type="button" className="primary-btn form-btn" onClick={handleClick}>
           Sign up
         </button>
       </form>

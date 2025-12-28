@@ -54,6 +54,7 @@ function App() {
         setShowLogin(true);
         setLoginState(false);
         setWrongMsg(response.data.msg);
+        setRegMsg("");
       } else {
         console.log("pass");
         setShowLogin(false);
@@ -63,10 +64,25 @@ function App() {
           email: "",
           password: "",
         });
+        setRegMsg("")
       }
     } catch (err) {
       console.log("error checking", err);
     }
+  }
+
+  const [registry, setRegistry] = React.useState({
+    fName:"",
+    email:"",
+    password:""
+  })
+
+  const [regMsg, setRegMsg] = React.useState("")
+
+  async function newUser() {
+    const response = await axios.post("http://localhost:5000/register", registry)
+    setRegMsg(response.data.message)
+
   }
 
   return (
@@ -76,6 +92,7 @@ function App() {
         petData={petData}
         loginState={loginState}
         setLoginState={setLoginState}
+        credential={credential}
       />
 
       <Routes>
@@ -114,6 +131,10 @@ function App() {
           logginIn={logginIn}
           setShowLogin={setShowLogin}
           wrongMsg={wrongMsg}
+          registry={registry}
+          setRegistry={setRegistry}
+          regMsg={regMsg}
+          newUser={newUser}
         />
       ) : null}
     </div>

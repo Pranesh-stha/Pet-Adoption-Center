@@ -1,9 +1,17 @@
 import React from "react";
 import Register from "./Register";
 
-function Logincard({ credential,setCredential,logginIn,setShowLogin, wrongMsg }) {
-  
-
+function Logincard({
+  credential,
+  setCredential,
+  logginIn,
+  setShowLogin,
+  wrongMsg,
+  registry,
+  setRegistry,
+  regMsg,
+  newUser
+}) {
   function handelChange(event) {
     const { name, value } = event.target;
     setCredential((prev) => {
@@ -14,14 +22,6 @@ function Logincard({ credential,setCredential,logginIn,setShowLogin, wrongMsg })
     });
   }
 
- 
-
-  function handelLogIn() {
-    setLoginFalse();
-    setLoginState(true);
-    console.log(credential)
-  }
-
   return (
     <div className="modal-overlay" id="loginModal">
       <div className="modal-card">
@@ -29,7 +29,9 @@ function Logincard({ credential,setCredential,logginIn,setShowLogin, wrongMsg })
           className="modal-close"
           id="closeLoginModal"
           aria-label="Close login form"
-          onClick={()=>{setShowLogin(false)}}
+          onClick={() => {
+            setShowLogin(false);
+          }}
         >
           &times;
         </button>
@@ -76,7 +78,7 @@ function Logincard({ credential,setCredential,logginIn,setShowLogin, wrongMsg })
             </form>
           </div>
           <div className="divider"></div>
-          <Register />
+          <Register registry={registry} setRegistry={setRegistry} regMsg={regMsg} newUser={newUser}/>
         </div>
       </div>
     </div>

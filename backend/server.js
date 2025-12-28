@@ -50,6 +50,35 @@ app.post("/login",(req,res)=>{
 })
 
 
+app.post("/register", (req, res) => {
+  const { fName, email, password } = req.body;
+
+  db.query(
+    "INSERT INTO users (fullname, password, email) VALUES ($1,$2,$3) RETURNING user_id, fullname, email",
+    [fName, password, email],
+    (err, regRes) => {
+      if (err) {
+        console.log("error registering:", err);
+
+        return res.status(500).json({
+          message: "Registration failed",
+          state: false,
+          pgError: err.message,
+          detail: err.detail,
+          code: err.code,
+        });
+      }
+
+      return res.json({
+        message: "Registry Successful",
+        state: true,
+        user: regRes.rows[0],
+      });
+    }
+  );
+});
+
+
 
 
 

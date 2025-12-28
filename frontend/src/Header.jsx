@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Header({ setLoginTrue, petData, loginState, setLoginState }) {
+function Header({ setLoginTrue, petData, loginState, setLoginState, credential }) {
   const navigate = useNavigate();
   const [homeActive, setHomeActive] = React.useState(true);
   const [petActive, setpetActive] = React.useState(false);
@@ -46,7 +46,7 @@ function Header({ setLoginTrue, petData, loginState, setLoginState }) {
       <div className="brand">
         <div className="brand-mark">PH</div>
         <div className="brand-copy">
-          <span className="brand-name">{loginState ?  "Logged In" : "Pet Haven" }</span>
+          <span className="brand-name">{loginState ?  "loggedIn" : "Pet Haven" }</span>
           <span className="brand-tagline">Adopt happiness</span>
         </div>
       </div>
