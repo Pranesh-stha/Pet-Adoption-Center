@@ -1,7 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Header({ setLoginTrue, petData, loginState, setLoginState, credential }) {
+function Header({
+  setLoginTrue,
+  petData,
+  loginState,
+  setLoginState,
+  credential,
+  setAdminLogin,
+}) {
   const navigate = useNavigate();
   const [homeActive, setHomeActive] = React.useState(true);
   const [petActive, setpetActive] = React.useState(false);
@@ -46,7 +53,9 @@ function Header({ setLoginTrue, petData, loginState, setLoginState, credential }
       <div className="brand">
         <div className="brand-mark">PH</div>
         <div className="brand-copy">
-          <span className="brand-name">{loginState ?  "loggedIn" : "Pet Haven" }</span>
+          <span className="brand-name">
+            {loginState ? "loggedIn" : "Pet Haven"}
+          </span>
           <span className="brand-tagline">Adopt happiness</span>
         </div>
       </div>
@@ -63,17 +72,41 @@ function Header({ setLoginTrue, petData, loginState, setLoginState, credential }
         >
           Pets
         </span>
-        <span className={`nav-link ${Process ? "active" : ""}`} onClick={toggleProcess}>Process</span>
-        <span className={`nav-link ${adoption ? "active" : ""}`} onClick={toggleAdoption}>My Adoptions</span>
+        <span
+          className={`nav-link ${Process ? "active" : ""}`}
+          onClick={toggleProcess}
+        >
+          Process
+        </span>
+        <span
+          className={`nav-link ${adoption ? "active" : ""}`}
+          onClick={toggleAdoption}
+        >
+          My Adoptions
+        </span>
       </nav>
       <div className="cta-group">
         <button className="ghost-btn">Donate</button>
-        {loginState?<button className="primary-btn" data-open-login onClick={()=>{setLoginState(false)}}>
-          Logout
-        </button>:<button className="primary-btn" data-open-login onClick={setLoginTrue}>
-          Login
-        </button>}
-        
+        {loginState ? (
+          <button
+            className="primary-btn"
+            data-open-login
+            onClick={() => {
+              setLoginState(false);
+              setAdminLogin(false);
+            }}
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            className="primary-btn"
+            data-open-login
+            onClick={setLoginTrue}
+          >
+            Login
+          </button>
+        )}
       </div>
     </header>
   );

@@ -6,6 +6,7 @@ import bcrypt from "bcrypt"
 
 const app = express();
 const PORT = 5000;
+const saltRounds = 10;
 dotenv.config()
 
 app.use(cors())
@@ -37,25 +38,44 @@ app.post("/login",(req,res)=>{
   db.query("SELECT * FROM users WHERE email=$1",[email],(err,dbRes)=>{
     if(err){
       console.log("error getting the query", err)
+      return res.status(500).json({ msg: "Database error", state: false });
     }
 
     if(dbRes.rows.length ===0){
       return res.json({msg:"email not found", state:false})
-    } else if (dbRes.rows[0].password != password){
-      return res.json({msg:"Password Incorrect", state:false})
     } else{
-      return res.json({msg:"Successful login", state:true})
+      bcrypt.compare(password, dbRes.rows[0].password, (checkErr,result)=>{
+        if(checkErr){
+          console.log("error while comparing pw", checkErr);
+           return res.status(500).json({ msg: "Compare failed", state: false });
+        }else{
+          if(result){
+            return res.json({msg:"Successful login", state:true})
+          } else{
+            return res.json({msg:"Password Incorrect", state:false})
+          }
+        }
+      })
     }
+
+    
   })
 })
+
+
+
 
 
 app.post("/register", (req, res) => {
   const { fName, email, password } = req.body;
 
-  db.query(
+  bcrypt.hash(password, saltRounds, (hashErr,hash)=>{
+    if(hashErr){
+      console.log("error hashing", hashErr)
+    } else{
+      db.query(
     "INSERT INTO users (fullname, password, email) VALUES ($1,$2,$3) RETURNING user_id, fullname, email",
-    [fName, password, email],
+    [fName, hash, email],
     (err, regRes) => {
       if (err) {
         console.log("error registering:", err);
@@ -76,6 +96,10 @@ app.post("/register", (req, res) => {
       });
     }
   );
+    }
+  })
+
+  
 });
 
 

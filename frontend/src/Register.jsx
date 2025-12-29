@@ -14,6 +14,12 @@ function Register({ registry, setRegistry, regMsg, newUser }) {
   function handleClick(){
     console.log(registry)
     newUser()
+
+    setRegistry({
+    fName:"",
+    email:"",
+    password:""
+  })
   }
   return (
     <div className="modal-pane">
@@ -50,7 +56,7 @@ function Register({ registry, setRegistry, regMsg, newUser }) {
             onChange={handelChange}
           />
         </label>
-        <p>{regMsg}</p>
+        <p style={{color:"green"}}>{regMsg}</p>
         <button type="button" className="primary-btn form-btn" onClick={handleClick}>
           Sign up
         </button>

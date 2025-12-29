@@ -10,7 +10,8 @@ function Logincard({
   registry,
   setRegistry,
   regMsg,
-  newUser
+  newUser,
+  adminLoginHandler
 }) {
   function handelChange(event) {
     const { name, value } = event.target;
@@ -60,7 +61,7 @@ function Logincard({
                   onChange={handelChange}
                 />
               </label>
-              <p>{wrongMsg}</p>
+              <p style={{color:"Red"}}>{wrongMsg}</p>
               <button
                 type="button"
                 className="primary-btn form-btn"
@@ -72,6 +73,7 @@ function Logincard({
                 type="button"
                 className="ghost-btn form-btn"
                 id="adminLogin"
+                onClick={adminLoginHandler}
               >
                 Login as admin
               </button>

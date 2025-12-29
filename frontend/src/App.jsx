@@ -7,12 +7,29 @@ import axios from "axios";
 import Process from "./process";
 import Adoption from "./Adoption";
 import Logincard from "./Logincard";
+import Addpet from "./Addpet";
 
 function App() {
   const [showLogin, setShowLogin] = React.useState(false);
   const [pets, setPets] = React.useState([]);
   const [loginState, setLoginState] = React.useState(false);
   const [wrongMsg, setWrongMsg] = React.useState("");
+  const [adminLogin, setAdminLogin] = React.useState(false);
+  const [showAdBit, setShowAdBit] = React.useState(false);
+
+  function adminLoginHandler() {
+    if (credential.email === "admin" && credential.password === "admin") {
+      setAdminLogin(true);
+      setShowLogin(false);
+      setLoginState(true);
+      setWrongMsg("");
+      setRegMsg("");
+      setCredential({
+        email: "",
+        password: "",
+      });
+    }
+  }
 
   function shuffleArray(array) {
     const shuffled = [...array];
@@ -64,7 +81,7 @@ function App() {
           email: "",
           password: "",
         });
-        setRegMsg("")
+        setRegMsg("");
       }
     } catch (err) {
       console.log("error checking", err);
@@ -72,17 +89,19 @@ function App() {
   }
 
   const [registry, setRegistry] = React.useState({
-    fName:"",
-    email:"",
-    password:""
-  })
+    fName: "",
+    email: "",
+    password: "",
+  });
 
-  const [regMsg, setRegMsg] = React.useState("")
+  const [regMsg, setRegMsg] = React.useState("");
 
   async function newUser() {
-    const response = await axios.post("http://localhost:5000/register", registry)
-    setRegMsg(response.data.message)
-
+    const response = await axios.post(
+      "http://localhost:5000/register",
+      registry
+    );
+    setRegMsg(response.data.message);
   }
 
   return (
@@ -93,6 +112,7 @@ function App() {
         loginState={loginState}
         setLoginState={setLoginState}
         credential={credential}
+        setAdminLogin={setAdminLogin}
       />
 
       <Routes>
@@ -108,7 +128,14 @@ function App() {
         />
         <Route
           path="/pets"
-          element={<Pets showLogin={showLogin} pets={pets} />}
+          element={
+            <Pets
+              showLogin={showLogin}
+              pets={pets}
+              adminLogin={adminLogin}
+              setShowAdBit={setShowAdBit}
+            />
+          }
         />
 
         <Route path="/process" element={<Process />} />
@@ -135,8 +162,11 @@ function App() {
           setRegistry={setRegistry}
           regMsg={regMsg}
           newUser={newUser}
+          adminLoginHandler={adminLoginHandler}
         />
       ) : null}
+
+      {showAdBit ? <Addpet setShowAdBit={setShowAdBit} /> : null}
     </div>
   );
 }

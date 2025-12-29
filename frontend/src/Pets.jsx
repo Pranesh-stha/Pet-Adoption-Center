@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Pets({ pets }) {
+function Pets({ pets, adminLogin, setShowAdBit  }) {
   return (
     <div className="page-wide">
       <main className="pets-layout">
@@ -134,8 +134,8 @@ function Pets({ pets }) {
               <button
                 className="primary-btn add-pet-btn"
                 id="addPetBtn"
-                data-admin-only
-                style={{ display: "none" }}
+                onClick={() => setShowAdBit(true)}
+                style={adminLogin ? {} : { display: "none" }}
               >
                 + Add pet
               </button>
