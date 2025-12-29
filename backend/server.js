@@ -49,7 +49,16 @@ app.post("/login", (req, res) => {
           return res.status(500).json({ msg: "Compare failed", state: false });
         } else {
           if (result) {
-            return res.json({ msg: "Successful login", state: true });
+            const user = dbRes.rows[0];
+            return res.json({
+              msg: "Successful login",
+              state: true,
+              user: {
+                user_id: user.user_id,
+                fullname: user.fullname,
+                email: user.email,
+              },
+            });
           } else {
             return res.json({ msg: "Password Incorrect", state: false });
           }
@@ -94,17 +103,8 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/newAnimal", (req, res) => {
-  const {
-    name,
-    type,
-    breed,
-    age,
-    agegroup,
-    size,
-    energy,
-    badge,
-    img
-  } = req.body;
+  const { name, type, breed, age, agegroup, size, energy, badge, img } =
+    req.body;
 
   const query = `
     INSERT INTO pets 
@@ -126,6 +126,56 @@ app.post("/newAnimal", (req, res) => {
   );
 });
 
+app.post("/adopt", (req, res) => {
+  const { pet_id, user_id } = req.body;
+
+  if (!pet_id || !user_id) {
+    return res.status(400).json({ message: "pet_id and user_id required" });
+  }
+
+  const q = `
+    INSERT INTO adopted_animals (pet_id, user_id)
+    VALUES ($1, $2)
+    RETURNING adopt_id
+  `;
+
+  db.query(q, [pet_id, user_id], (err, dbRes) => {
+    if (err) {
+      if (err.code === "23505") {
+        return res
+          .status(409)
+          .json({ message: "This pet is already adopted." });
+      }
+      console.log("Error adopting pet:", err);
+      return res.status(500).json({ message: "Failed to adopt pet" });
+    }
+
+    return res.json({
+      message: "Adoption saved!",
+      adopt_id: dbRes.rows[0].adopt_id,
+    });
+  });
+});
+
+app.get("/myAdoptions/:userId", (req, res) => {
+  const userId = req.params.userId;
+
+  const q = `
+    SELECT p.*
+    FROM adopted_animals aa
+    JOIN pets p ON p.id = aa.pet_id
+    WHERE aa.user_id = $1
+    ORDER BY aa.adopted_at DESC
+  `;
+
+  db.query(q, [userId], (err, dbRes) => {
+    if (err) {
+      console.log("Error fetching adoptions:", err);
+      return res.status(500).json({ message: "Failed to fetch adoptions" });
+    }
+    return res.json(dbRes.rows);
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

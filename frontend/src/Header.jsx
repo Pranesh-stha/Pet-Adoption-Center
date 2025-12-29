@@ -8,6 +8,7 @@ function Header({
   setLoginState,
   credential,
   setAdminLogin,
+  setCurrentUser,
 }) {
   const navigate = useNavigate();
   const [homeActive, setHomeActive] = React.useState(true);
@@ -41,6 +42,10 @@ function Header({
   }
 
   function toggleAdoption() {
+    if (!loginState) {
+      setLoginTrue();
+      return;
+    }
     setpetActive(false);
     setHomeActive(false);
     setProcess(false);
@@ -94,6 +99,7 @@ function Header({
             onClick={() => {
               setLoginState(false);
               setAdminLogin(false);
+              setCurrentUser(null);
             }}
           >
             Logout

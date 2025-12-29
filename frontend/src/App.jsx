@@ -16,6 +16,7 @@ function App() {
   const [wrongMsg, setWrongMsg] = React.useState("");
   const [adminLogin, setAdminLogin] = React.useState(false);
   const [showAdBit, setShowAdBit] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState(null);
 
   function adminLoginHandler() {
     if (credential.email === "admin" && credential.password === "admin") {
@@ -77,10 +78,8 @@ function App() {
         setShowLogin(false);
         setLoginState(true);
         setWrongMsg("");
-        setCredential({
-          email: "",
-          password: "",
-        });
+        setCurrentUser(response.data.user);
+        setCredential({ email: "", password: "" });
         setRegMsg("");
       }
     } catch (err) {
@@ -163,6 +162,7 @@ function App() {
         setLoginState={setLoginState}
         credential={credential}
         setAdminLogin={setAdminLogin}
+        setCurrentUser={setCurrentUser}
       />
 
       <Routes>
@@ -184,6 +184,9 @@ function App() {
               pets={pets}
               adminLogin={adminLogin}
               setShowAdBit={setShowAdBit}
+              loginState={loginState}
+              openLogin={() => setShowLogin(true)}
+              currentUser={currentUser}
             />
           }
         />
@@ -194,9 +197,9 @@ function App() {
           path="/adoption"
           element={
             <Adoption
-              showLogin={showLogin}
-              setLoginFalse={() => setShowLogin(false)}
-              setLoginState={setLoginState}
+              loginState={loginState}
+              openLogin={() => setShowLogin(true)}
+              currentUser={currentUser}
             />
           }
         />

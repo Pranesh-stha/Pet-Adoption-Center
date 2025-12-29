@@ -1,7 +1,34 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function Pets({ pets, adminLogin, setShowAdBit  }) {
+function Pets({
+  pets,
+  adminLogin,
+  setShowAdBit,
+  loginState,
+  openLogin,
+  currentUser,
+}) {
+  async function handleAdopt(pet) {
+    if (!loginState || !currentUser) {
+      openLogin();
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:5000/adopt", {
+        pet_id: pet.id,
+        user_id: currentUser.user_id,
+      });
+
+      alert(response.data.message); // simple feedback
+    } catch (err) {
+      const msg = err?.response?.data?.message || "Adopt failed";
+      alert(msg);
+    }
+  }
+
   return (
     <div className="page-wide">
       <main className="pets-layout">
@@ -129,7 +156,7 @@ function Pets({ pets, adminLogin, setShowAdBit  }) {
             </div>
             <div className="pets-actions">
               <p id="resultsCount" className="muted">
-                Showing all {pets.length} pets 
+                Showing all {pets.length} pets
               </p>
               <button
                 className="primary-btn add-pet-btn"
@@ -169,7 +196,7 @@ function Pets({ pets, adminLogin, setShowAdBit  }) {
                     <span className="tag">{pet.badge}</span>
                   </div>
 
-                  <button className="primary-btn adopt-btn">
+                  <button className="primary-btn adopt-btn" onClick={() => handleAdopt(pet)}>
                     Adopt {pet.name}
                   </button>
                 </div>
@@ -178,8 +205,6 @@ function Pets({ pets, adminLogin, setShowAdBit  }) {
           </div>
         </section>
       </main>
-
-      
     </div>
   );
 }
