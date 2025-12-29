@@ -104,6 +104,56 @@ function App() {
     setRegMsg(response.data.message);
   }
 
+  const [newPet, setNewPet] = React.useState({
+    name: "",
+    type: "",
+    breed: "",
+    age: "",
+    agegroup: "",
+    size: "",
+    energy: "",
+    badge: "",
+    img: "",
+  });
+
+  function handleNewPetChange(e) {
+    const { name, value } = e.target;
+    setNewPet((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  function handleSavePet() {
+    console.log(newPet);
+  }
+
+  const [saveMsg, setSaveMsg] = React.useState("");
+
+  async function saveNewPet() {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/newAnimal",
+        newPet
+      );
+      setSaveMsg(response.data.message);
+
+      setNewPet({
+        name: "",
+        type: "",
+        breed: "",
+        age: "",
+        agegroup: "",
+        size: "",
+        energy: "",
+        badge: "",
+        img: "",
+      });
+    } catch (err) {
+      setSaveMsg("Failed to add pet");
+    }
+  }
+
   return (
     <div className="page">
       <Header
@@ -166,7 +216,16 @@ function App() {
         />
       ) : null}
 
-      {showAdBit ? <Addpet setShowAdBit={setShowAdBit} /> : null}
+      {showAdBit ? (
+        <Addpet
+          setShowAdBit={setShowAdBit}
+          newPet={newPet}
+          handleNewPetChange={handleNewPetChange}
+          handleSavePet={saveNewPet}
+          saveMsg={saveMsg}
+          setSaveMsg={setSaveMsg}
+        />
+      ) : null}
     </div>
   );
 }

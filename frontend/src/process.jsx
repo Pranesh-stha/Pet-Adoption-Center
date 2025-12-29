@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React from "react";
 
 function Process({}){
+  const navigate = useNavigate()
   return(
     <main className="process-page">
       
@@ -142,8 +143,8 @@ function Process({}){
           <p className="lede">Text us photos of your space, ask about bonding games, or book a second meet—it's all part of the process.</p>
         </div>
         <div className="process-actions">
-          <a href="pets.html" className="primary-btn">Browse adoptables</a>
-          <a href="my-adoption.html" className="primary-btn">See my adoption card</a>
+          <span className="primary-btn" onClick={()=>{navigate("/pets")}}>Browse adoptables</span>
+          <span className="primary-btn" onClick={()=>{navigate("/adoption")}}>See my adoption card</span>
         </div>
       </section>
 

@@ -11,16 +11,18 @@ function Register({ registry, setRegistry, regMsg, newUser }) {
     });
   }
 
-  function handleClick(){
-    console.log(registry)
-    newUser()
+  function handleClick() {
+    console.log(registry);
+    newUser();
 
     setRegistry({
-    fName:"",
-    email:"",
-    password:""
-  })
+      fName: "",
+      email: "",
+      password: "",
+    });
   }
+
+
   return (
     <div className="modal-pane">
       <p className="eyebrow">New here?</p>
@@ -56,8 +58,12 @@ function Register({ registry, setRegistry, regMsg, newUser }) {
             onChange={handelChange}
           />
         </label>
-        <p style={{color:"green"}}>{regMsg}</p>
-        <button type="button" className="primary-btn form-btn" onClick={handleClick}>
+        <p style={{ color: "green" }}>{regMsg}</p>
+        <button
+          type="button"
+          className="primary-btn form-btn"
+          onClick={handleClick}
+        >
           Sign up
         </button>
       </form>

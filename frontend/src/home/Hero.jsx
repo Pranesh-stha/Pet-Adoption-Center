@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function Hero(){
+  const navigate = useNavigate()
+
   return(
     <section className="hero">
         <div className="hero-visual">
@@ -41,8 +43,8 @@ function Hero(){
             Meet pets matched to your home, energy, and schedule. Our team coaches you from the first hello to the ride home.
           </p>
           <div className="actions">
-            <button className="primary-btn">Browse adoptables</button>
-            <button className="ghost-btn">How adoption works</button>
+            <button className="primary-btn" onClick={()=>{navigate("/pets")}}>Browse adoptables</button>
+            <button className="ghost-btn" onClick={()=>{navigate("/process")}}>How adoption works</button>
           </div>
           <div className="stats">
             <div className="stat">
